@@ -26,7 +26,7 @@ class App extends StatelessWidget {
         Locale('es', ''), // Spanish
       ],
       home: Builder(
-        builder: (context) => Center(child: Text(AppLocalizations.of(context).homeDescription)),
+        builder: (context) => const WriteCommandLookupScreen(),
       ),
     );
   }

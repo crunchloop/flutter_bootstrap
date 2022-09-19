@@ -45,3 +45,7 @@ app.*.map.json
 
 # FVM related
 .fvm/flutter_sdk
+
+#Freezed
+*.freezed.dart
+*.g.dart
