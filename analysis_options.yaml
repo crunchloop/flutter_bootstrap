@@ -12,6 +12,9 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   errors:
     invalid_annotation_target: ignore
+  exclude:
+    - "**.freezed.dart"
+    - "**.g.dart"
 
 linter:
   # The lint rules applied to this project can be customized in the
@@ -43,6 +46,8 @@ dart_code_metrics:
     source-lines-of-code: 50
   metrics-exclude:
     - test/**
+    - "**.freezed.dart"
+    - "**.g.dart"
   rules:
     - newline-before-return
     - no-boolean-literal-compare
