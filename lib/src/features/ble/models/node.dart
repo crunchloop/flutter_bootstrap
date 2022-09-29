@@ -3,7 +3,6 @@ import 'package:flutter_bootstrap/src/features/ble/models/command_result.dart';
 import 'package:flutter_bootstrap/src/features/ble/models/nta_command.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:developer' as developer;
 
 import 'atn_command.dart';
 
@@ -11,6 +10,11 @@ part 'node.freezed.dart';
 
 @freezed
 class Node with _$Node {
+
+  static const service = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
+  static const rxCharacteristic = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+  static const txCharacteristic = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
+
   const Node._();
 
   const factory Node({
@@ -21,7 +25,6 @@ class Node with _$Node {
     @Default([]) List<AtnCommand> executedCommands,
     @Default([]) List<CommandResult> commandResults}) = _Node;
 
-
   Node markFirstCommandExecution() {
     final command = pendingCommands.first;
     return copyWith(
@@ -31,11 +34,14 @@ class Node with _$Node {
   }
 
   Node addResult(NtaCommand receivedCommand) {
-    final sentCommand = executedCommands.last;
+    final sentCommandIndex = executedCommands.indexWhere(
+      (element) => element.transactionId == receivedCommand.transactionId
+    );
 
-    if (sentCommand.transactionId != receivedCommand.transactionId) {
-      developer.log('Invalid transaction for commands $sentCommand and $receivedCommand');
-      return this;
+    final sentCommand = executedCommands[sentCommandIndex];
+
+    if (sentCommandIndex > 0 && executedCommands[sentCommandIndex - 1] != commandResults.last.sent) {
+      throw 'Invalid transaction for commands $sentCommand and $receivedCommand';
     }
 
     return copyWith(
@@ -53,4 +59,18 @@ class Node with _$Node {
   );
 
   bool connected() => connectionState == DeviceConnectionState.connected;
+
+  QualifiedCharacteristic get writeQualifiedCharacteristic => QualifiedCharacteristic(
+      characteristicId: Node.rxCharacteristic.toBleUUID,
+      serviceId: Node.service.toBleUUID,
+      deviceId: id);
+
+  QualifiedCharacteristic get readQualifiedCharacteristic => QualifiedCharacteristic(
+      characteristicId: Node.txCharacteristic.toBleUUID,
+      serviceId: Node.service.toBleUUID,
+      deviceId: id);
+}
+
+extension ToBleUUID on String {
+  Uuid get toBleUUID => Uuid.parse(this);
 }

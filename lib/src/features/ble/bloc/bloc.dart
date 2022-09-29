@@ -13,8 +13,6 @@ typedef NodeSelectorById = Node? Function(String id);
 typedef NodeMap = Future<dynamic> Function(Node node);
 
 class BleBloc extends Bloc<BleEvent, BleState> {
-  static const txCharacteristic = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
-  static const service = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
 
   final FlutterReactiveBle _ble;
   final CompositeSubscription _subscription = CompositeSubscription();
@@ -43,11 +41,7 @@ class BleBloc extends Bloc<BleEvent, BleState> {
     if (node == null || !node.needsConnection()) return;
 
     _ble.connectToDevice(id: node.id).flatMap(
-            (event) => _ble.subscribeToCharacteristic(
-                QualifiedCharacteristic(
-                    characteristicId: Uuid.parse(txCharacteristic),
-                    serviceId: Uuid.parse(service),
-                    deviceId: node.id))
+            (event) => _ble.subscribeToCharacteristic(node.readQualifiedCharacteristic)
     ).listen((event) {}).addTo(_subscription);
   }
 

@@ -27,22 +27,65 @@ class WriteCommandScreen extends StatelessWidget {
       body: BlocProvider(
           create: (context) => BleBloc(ble: _ble, nodes: _devices),
           child: SafeArea(
+            child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   Padding(padding: const EdgeInsets.all(16), child: Text(_devices.toString())),
                   Padding(padding: const EdgeInsets.all(16),
                       child: Builder(builder: (context) => ElevatedButton(
-                        onPressed: () => BlocProvider.of<BleBloc>(context)
-                            ..add(AddCommandEvent(AtnCommand.train(led: Led.on, shape: Shape.cross, color: Color.cyan, sensor: Sensor.hoverMax, timeout: Timeout.timeMs(const Duration(seconds: 30))), _devices.first.id))
-                            ..add(AddCommandEvent(AtnCommand.train(led: Led.on, shape: Shape.cross, color: Color.cyan, sensor: Sensor.hoverMax, timeout: Timeout.timeMs(const Duration(seconds: 30))), _devices.last.id))
-                            ..add(AddCommandEvent(AtnCommand.train(led: Led.flash, shape: Shape.leftArrowUp, color: Color.blue, sensor: Sensor.touch, timeout: Timeout.timeMs(const Duration(seconds: 30))), _devices.first.id))
-                            ..add(AddCommandEvent(AtnCommand.train(led: Led.on, shape: Shape.rightArrowUp, color: Color.magenta, sensor: Sensor.hoverMin, timeout: Timeout.timeMs(const Duration(seconds: 30))), _devices.last.id))
-                            ..add(AddCommandEvent(AtnCommand.train(led: Led.on, shape: Shape.letter('D'.codeUnitAt(0)), color: Color.yellow, sensor: Sensor.touch, timeout: Timeout.timeMs(const Duration(seconds: 40))), _devices.first.id))
-                            ..add(AddCommandEvent(AtnCommand.train(led: Led.on, shape: Shape.rightArrowDown, color: Color.red, sensor: Sensor.touch, timeout: Timeout.timeMs(const Duration(seconds: 30))), _devices.last.id))
-                            ..add(StartEvent(_devices.first.id))
-                            ..add(StartEvent(_devices.last.id))
-                            // ..add(Send(AtnCommand.trainAck(), _device))
-                        ,
+                        onPressed: () {
+                            final bloc = BlocProvider.of<BleBloc>(context);
+                            for (final node in _devices) {
+                              bloc..add(AddCommandEvent(AtnCommand.train(led: Led.on,
+                                  shape: Shape.cross,
+                                  color: Color.cyan,
+                                  sensor: Sensor.hoverMax,
+                                  timeout: Timeout.timeMs(
+                                      const Duration(seconds: 30))),
+                                  node.id))
+                                ..add(AddCommandEvent(
+                                  AtnCommand.train(led: Led.on,
+                                      shape: Shape.cross,
+                                      color: Color.cyan,
+                                      sensor: Sensor.hoverMax,
+                                      timeout: Timeout.timeMs(
+                                          const Duration(seconds: 30))),
+                                  node.id))
+                                ..add(AddCommandEvent(
+                                  AtnCommand.train(led: Led.flash,
+                                      shape: Shape.leftArrowUp,
+                                      color: Color.blue,
+                                      sensor: Sensor.touch,
+                                      timeout: Timeout.timeMs(
+                                          const Duration(seconds: 30))),
+                                  node.id))
+                                ..add(AddCommandEvent(
+                                  AtnCommand.train(led: Led.on,
+                                      shape: Shape.rightArrowUp,
+                                      color: Color.magenta,
+                                      sensor: Sensor.hoverMin,
+                                      timeout: Timeout.timeMs(
+                                          const Duration(seconds: 30))),
+                                  node.id))
+                                ..add(AddCommandEvent(
+                                  AtnCommand.train(led: Led.on,
+                                      shape: Shape.letter('D'.codeUnitAt(0)),
+                                      color: Color.yellow,
+                                      sensor: Sensor.touch,
+                                      timeout: Timeout.timeMs(
+                                          const Duration(seconds: 40))),
+                                  node.id))
+                                ..add(AddCommandEvent(
+                                  AtnCommand.train(led: Led.on,
+                                      shape: Shape.rightArrowDown,
+                                      color: Color.red,
+                                      sensor: Sensor.touch,
+                                      timeout: Timeout.timeMs(
+                                          const Duration(seconds: 30))),
+                                  node.id))
+                                ..add(StartEvent(node.id));
+                            }
+                        },
                         child: const Text("Write"),
                       ))
                   ),
@@ -54,6 +97,7 @@ class WriteCommandScreen extends StatelessWidget {
                   )
                 ],
               )
+            )
           )
       )
     );

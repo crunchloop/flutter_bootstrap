@@ -50,7 +50,7 @@ dependencies:
   drift: ^2.1.0
   ####
   quantity: ^2.0.0
-  permission_handler: ^10.0.0
+  permission_handler: ^10.0.1
   rxdart: ^0.27.5
   flutter_reactive_ble: ^5.0.2
   flutter_nordic_dfu:
@@ -68,7 +68,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.1
-  dart_code_metrics: ^4.18.3
+  dart_code_metrics: ^4.19.0
   build_runner: ^2.2.1
   build_config: ^1.1.0
   flutter_gen_runner: ^4.3.0

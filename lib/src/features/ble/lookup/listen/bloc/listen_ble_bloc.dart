@@ -1,94 +1,92 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../models/node.dart';
 import 'bloc.dart';
+import 'dart:developer' as developer;
 
 class ListenBleBloc extends Bloc<ListenBleEvent, ListenBleState> {
   final CompositeSubscription _subscription = CompositeSubscription();
+  static const nodeName = "Neural_Node";
+  static const oldNodeTimeout = Duration(seconds: 3);
 
   final FlutterReactiveBle _bleManager;
   PermissionStatus _locationPermissionStatus = PermissionStatus.restricted;
   Timer? _oldNodesCheckTimer;
 
-  ListenBleBloc() : _bleManager = FlutterReactiveBle(), super(const ListenBleState()) {
+  ListenBleBloc() : _bleManager = FlutterReactiveBle(), super(const Uninitialized()) {
     on<StartDiscovery>(_startDiscovery);
     on<NodeDiscovered>(_nodeDiscovered);
     on<CheckOldNodes>(_checkOldNodes);
+    on<SelectAll>(_selectAll);
+    on<Toggle>(_toggleNode);
     add(const StartDiscovery());
-    _oldNodesCheckTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    _oldNodesCheckTimer = Timer.periodic(oldNodeTimeout, (timer) {
       add(const CheckOldNodes());
     });
   }
-
-  static const service = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
 
   void _startDiscovery(StartDiscovery event, Emitter<ListenBleState> emit) async {
     if (state is! Uninitialized) {
       return;
     }
-    print("Creating client");
-    print("Created client");
+    developer.log("Created client");
     await _checkPermissions();
-    print("Checked permissions");
+    developer.log("Checked permissions");
     await _waitForBluetoothPoweredOn();
-    print("Bluetooth powered on");
+    developer.log("Bluetooth powered on");
     _subscription.clear();
-    print("Canceled old subscription");
+    developer.log("Canceled old subscription");
 
-    emit(ListenBleState.withDevices([]));
+    emit(const ListenBleState());
 
-    final subscription = _bleManager.scanForDevices(withServices: [Uuid.parse(service)]).map((device) {
-      print("on scan $device");
+    final subscription = _bleManager.scanForDevices(
+        withServices: [Node.service.toBleUUID]
+    ).map((device) {
+      developer.log("on scan $device");
       if (!_isValidAdvertisementData(device)) {
         return null;
       }
 
-      print("on scan device ${device.manufacturerData}");
+      developer.log("on scan device ${device.manufacturerData}");
 
       return Node(device: device, id: device.id, scanTime: DateTime.now());
-    }).whereType<Node>().listen((device) {
-      add(NodeDiscovered(device));
+    }).whereType<Node>().listen((node) {
+      add(NodeDiscovered(node));
     }, onError: (error) => onError(error, StackTrace.current));
 
     _subscription.add(subscription);
   }
 
   void _nodeDiscovered(NodeDiscovered event, Emitter<ListenBleState> emit) async {
-    final devices = state.devices;
-    final node = event.node;
-
-    var index = devices.indexWhere((element) => element.id == node.id);
-
-    print("gt device found $node");
-    emit(ListenBleState.withDevices(BuiltList.of(devices).
-    rebuild((builder) {
-      return index == -1 ? builder.add(node):
-      builder.replaceRange(index, index + 1, [node]);
-    })
-        .toList())
-    );
+    developer.log("Node found ${event.node}");
+    emit(state.copyWithNewDevice(event.node));
   }
 
   void _checkOldNodes(CheckOldNodes event, Emitter<ListenBleState> emit) async {
-    emit(state.copyWith(devices: state.devices.where(
-      (element) => element.scanTime.isAfter(DateTime.now().subtract(const Duration(seconds: 4)))
-    ).toList()));
+    emit(state.copyRemovingDevicesByTime(oldNodeTimeout));
+  }
+
+  void _selectAll(SelectAll _, Emitter<ListenBleState> emit) {
+    emit(state.copyWith(selectedNodes: state.nodes));
+  }
+
+  void _toggleNode(Toggle toggle, Emitter<ListenBleState> emit) {
+    emit(state.copyWithToggleInNode(toggle.node));
   }
 
   @override
   void onError(Object error, StackTrace stackTrace) {
     super.onError(error, stackTrace);
-    _bleManager?.deinitialize();
-    print('$error, $stackTrace');
+    _bleManager.deinitialize();
+    developer.log('$error, $stackTrace');
   }
 
   bool _isValidAdvertisementData(DiscoveredDevice advertisementData) {
-    return advertisementData.name == "Neural_Node";
+    return advertisementData.name == nodeName;
   }
 
   Future<void> _checkPermissions() async {
@@ -102,11 +100,11 @@ class ListenBleBloc extends Bloc<ListenBleEvent, ListenBleState> {
   }
 
   Future<void> _waitForBluetoothPoweredOn() async {
-    print("subscribing to powered on event");
+    developer.log("subscribing to powered on event");
     return Rx.retry(() => _bleManager
       .statusStream
       .where((bluetoothState) {
-        print("powered on event $bluetoothState");
+        developer.log("powered on event $bluetoothState");
         return bluetoothState == BleStatus.ready;
       })
       .take(1)

@@ -2,5 +2,8 @@
   "appName": "Flutter Bootstrap",
   "homeTitle": "Home",
   "homeDescription": "This is the home of the app",
-  "all": "All"
+  "all": "All",
+  "deviceSelection": "Select devices",
+  "selectAll": "Select All",
+  "routineTest": "Routine test"
 }

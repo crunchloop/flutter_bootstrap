@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/node.dart';
 import 'listen/listen_lookup.dart';
@@ -18,20 +19,15 @@ class LookupScreen extends StatelessWidget {
       length: 1,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Device Selection"),
+          title: Text(AppLocalizations.of(context).deviceSelection),
         ),
         body: SafeArea(
           child: Column(
             children: <Widget>[
-              const TabBar(tabs: [
-                Tab(text: "Listen",),
-              ]),
-              Expanded(
-                child: TabBarView(children: [
-                  ListenLookup(onLookupFinished: _onLookupFinished),
-                ])
-              )
-            ],
+                Expanded(
+                child: ListenLookup(onLookupFinished: _onLookupFinished),
+              ),
+            ]
           )
         ),
       )
