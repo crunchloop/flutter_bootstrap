@@ -79,9 +79,10 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 flutter_gen:
-#  colors:
-#    inputs:
-#      - assets/color/colors.xml
+  colors:
+    enabled: true
+    inputs:
+      - assets/color/colors.xml
 
 # The following section is specific to Flutter packages.
 flutter:

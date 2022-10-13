@@ -1,0 +1,25 @@
+<resources>
+    <color name="natural_green" type="material">#16F581</color>
+    <color name="primary_green_btn_top">#56FF88</color>
+    <color name="primary_green_btn_bottom">#20DD9B</color>
+    <color name="dark_green_btn">#0A723C</color>
+    <color name="disabled_white">#80FFFFFF</color>
+    <color name="secondary_dark_indigo_btn">#081333</color>
+    <color name="secondary_gray">#222121</color>
+    <color name="secondary_dark_indigo_grey_intermediate_btn">#08746B4B</color>
+    <color name="secondary_gray_btn">#CFD2D1</color>
+    <color name="secondary_dark_gray_btn">#3E3F3F</color>
+    <color name="tertiary_light_gray_btn">#F1F1F1</color>
+    <color name="tertiary_dark_gray_btn">#333333</color>
+    <color name="menus_header">#121212</color>
+    <color name="dark_grey">#1C1C1E</color>
+    <color name="light_grey">#292A2A</color>
+    <color name="background">#000000</color>
+    <color name="text_grey">#C7C7C7</color>
+    <color name="white">#FFFFFF</color>
+    <color name="links">#F1F1F1</color>
+    <color name="pressed_shadow">#20515151</color>
+    <color name="strong_pressed_shadow">#50515151</color>
+    <color name="half_pressed_shadow">#10515151</color>
+    <color name="primary_test">#16F581</color>
+</resources>
