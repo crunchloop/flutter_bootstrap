@@ -25,9 +25,7 @@ class _AppDrawerState extends State<AppDrawer> {
         padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.green
-            ),
+            decoration: BoxDecoration(color: Colors.green),
             child: Text('Drawer Header'),
           ),
           ListTile(
@@ -43,9 +41,7 @@ class _AppDrawerState extends State<AppDrawer> {
             },
           ),
           ListTile(
-            title: const Text('Sign Out'),
-            onTap: () => signOut(context)
-          ),
+              title: const Text('Sign Out'), onTap: () => signOut(context)),
         ],
       ),
     );
