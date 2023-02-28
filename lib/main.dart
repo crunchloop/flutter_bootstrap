@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:auth/auth.dart';
+import 'package:flutter_bootstrap/data/repositories/auth_facade.dart';
 
 import 'injection.dart';
 import 'app_router.dart';
@@ -8,11 +8,11 @@ import 'app_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  configureDependencies();
-  await Auth.initialize();
+  await configureDependencies();
 
   // TODO: use a guard to redirect to home if logged in
-  await Auth.signOut();
+  final authFacade = AuthFacade();
+  await authFacade.signOut();
 
   runApp(MyApp());
 }
