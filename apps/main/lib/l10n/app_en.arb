@@ -10,7 +10,7 @@
     "enterSomeText": "Enter some text, please",
     "login": "Login",
     "homeScreenMessage": "You are in the home screen!",
-    "homeScreenButton": "Hello!"
+    "homeScreenButton": "Hello!",
     "ok": "Ok",
     "alert": "Alert!"
 }
