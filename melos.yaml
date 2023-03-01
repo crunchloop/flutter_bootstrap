@@ -1,0 +1,5 @@
+name: flutter_bootstrap
+
+packages:
+  - packages/*
+  - apps/*
