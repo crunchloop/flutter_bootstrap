@@ -1,11 +1,13 @@
 // import 'dart:convert';
 
-import 'package:auth/auth.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bootstrap/data/repositories/auth_facade.dart';
+import 'package:injectable/injectable.dart';
 
 import '../app_router.dart';
 
+@Injectable()
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -15,16 +17,18 @@ class LoginPage extends StatefulWidget {
 
 // login form in dart
 class _LoginState extends State<LoginPage> {
+  final _authFacade = AuthFacade();
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   // async function to login
   Future<void> login(BuildContext context) async {
-    await Auth.signInWithEmailAndPassword(
+    await _authFacade.signIn(
         email: _emailController.text, password: _passwordController.text);
 
-    if (Auth.currentUser != null) {
+    if (_authFacade.getUser() != null) {
       context.router.push(const HomeRoute());
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

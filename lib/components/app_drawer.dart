@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../app_router.dart';
+import '../data/repositories/auth_facade.dart';
 
 // statefull app drawer
 class AppDrawer extends StatefulWidget {
@@ -13,8 +14,11 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  final _authFacade = AuthFacade();
+
   void signOut(BuildContext context) async {
-    await Auth.signOut();
+    await _authFacade.signOut();
+
     context.router.push(const LoginRoute());
   }
 
