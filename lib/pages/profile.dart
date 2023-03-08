@@ -17,7 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
         title: const Text('Profile'),
       ),
       drawer: const AppDrawer(),
-      body: const  Center(
+      body: const Center(
         child: Text('Your profile!'),
       ),
     );

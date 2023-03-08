@@ -19,11 +19,10 @@ class _HomePageState extends State<HomePage> {
           content: Text(message),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK')
-            ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK')),
           ],
         );
       },
@@ -38,13 +37,12 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: const AppDrawer(),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            showAlert('You are in the home screen!');
-          },
-          child: const Text('Hello!'),
-        )
-      ),
+          child: ElevatedButton(
+        onPressed: () {
+          showAlert('You are in the home screen!');
+        },
+        child: const Text('Hello!'),
+      )),
     );
   }
 }
