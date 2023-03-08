@@ -1,3 +1,4 @@
+import 'package:auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -10,7 +11,10 @@ part 'app_router.gr.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(page: LoginPage, initial: true),
+    AutoRoute(
+      page: LoginPage,
+      initial: true,
+    ),
     AutoRoute(page: HomePage),
     AutoRoute(page: ProfilePage),
   ],
