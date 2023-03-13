@@ -1,0 +1,14 @@
+{
+    "appTitle": "Bootstrap app",
+    "home": "Inicio",
+    "profile": "Mi perfil",
+    "signOut": "Salir",
+    "loginFailed": "Error en inicio de sesión!",
+    "emailLabel": "Correo",
+    "passwordLabel": "Contraseña",
+    "submit": "Enviar",
+    "enterSomeText": "Ingrese algo de texto, por favor",
+    "login": "Entrar",
+    "homeScreenMessage": "Esta es la pantalla de inicio!",
+    "homeScreenButton": "Hola!"
+}

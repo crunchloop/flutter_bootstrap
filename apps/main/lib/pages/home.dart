@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bootstrap/bloc/auth_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../components/app_drawer.dart';
 import '../injection.dart';
@@ -41,9 +42,9 @@ class _HomePageState extends State<HomePage> {
       body: Center(
           child: ElevatedButton(
         onPressed: () {
-          showAlert('You are in the home screen!');
+          showAlert(AppLocalizations.of(context)!.homeScreenMessage);
         },
-        child: const Text('Hello!'),
+        child: Text(AppLocalizations.of(context)!.homeScreenButton),
       )),
     );
   }
