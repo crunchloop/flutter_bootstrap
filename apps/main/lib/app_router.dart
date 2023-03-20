@@ -19,7 +19,7 @@ class AuthGuard extends AutoRedirectGuard {
   late final StreamSubscription<AuthState> _stream;
 
   AuthGuard(this.authBloc, this.authRepository) {
-    _stream = authBloc.stream.listen((state) {
+    _stream = authBloc.stream.listen((AuthState state) {
       state.maybeMap(
         orElse: () {
           reevaluate();

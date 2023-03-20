@@ -60,7 +60,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '90115821420',
     projectId: 'fir-auth-89014',
     storageBucket: 'fir-auth-89014.appspot.com',
-    iosClientId: '90115821420-5fpc69ms2j8012q5hei3bgce6mrhrrc4.apps.googleusercontent.com',
+    iosClientId:
+        '90115821420-5fpc69ms2j8012q5hei3bgce6mrhrrc4.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterBootstrap',
   );
 
@@ -70,7 +71,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '90115821420',
     projectId: 'fir-auth-89014',
     storageBucket: 'fir-auth-89014.appspot.com',
-    iosClientId: '90115821420-skk3id2s71b8bif0i8v3n9858n3vl8ga.apps.googleusercontent.com',
+    iosClientId:
+        '90115821420-skk3id2s71b8bif0i8v3n9858n3vl8ga.apps.googleusercontent.com',
     iosBundleId: 'com.example.app',
   );
 }
