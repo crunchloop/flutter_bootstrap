@@ -8,5 +8,5 @@ class AuthState with _$AuthState {
 
   const factory AuthState.loaded() = Loaded;
 
-  const factory AuthState.error(String message) = Errored;
+  const factory AuthState.error() = Errored;
 }

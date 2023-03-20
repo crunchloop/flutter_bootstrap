@@ -17,15 +17,15 @@ class AuthRepository extends FirebaseAuthentication implements Authentication {
   @override
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password}) async {
-
-    return await super.signInWithEmailAndPassword(email: email, password: password);
+    return await super
+        .signInWithEmailAndPassword(email: email, password: password);
   }
 
   @override
   Future<void> createUserWithEmailAndPassword(
-      {required String email, required String password}) async  {
-
-    return await super.createUserWithEmailAndPassword(email: email, password: password);
+      {required String email, required String password}) async {
+    return await super
+        .createUserWithEmailAndPassword(email: email, password: password);
   }
 
   @override

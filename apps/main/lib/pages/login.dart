@@ -53,7 +53,7 @@ class _LoginState extends State<LoginPage> {
               error: (state) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(state.message),
+                    content: Text(AppLocalizations.of(context)!.loginFailed),
                     backgroundColor: Colors.red,
                   ),
                 );

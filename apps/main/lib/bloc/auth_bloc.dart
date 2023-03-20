@@ -1,10 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:injectable/injectable.dart';
 
 import '../data/repositories/auth.dart';
-import '../injection.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -15,7 +13,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
 
   AuthBloc(this.authRepository) : super(const Initial()) {
-
     on<_Started>((event, emit) {
       // nothing here for now
     });
@@ -29,7 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (authRepository.getUser() != null) {
         emit(const Loaded());
       } else {
-        emit(Errored(getIt<AppLocalizations>().loginFailed));
+        emit(const Errored());
       }
     });
 
