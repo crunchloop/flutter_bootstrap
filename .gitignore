@@ -31,6 +31,14 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+apps/*/build/
+packages/*/build/
+
+# generated dart files
+**/*.freezed.dart
+**/*.g.dart
+**/*.gr.dart
+injection.config.dart
 
 # Symbolication related
 app.*.symbols
