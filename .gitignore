@@ -38,7 +38,8 @@ packages/*/build/
 **/*.freezed.dart
 **/*.g.dart
 **/*.gr.dart
-injection.config.dart
+apps/**/injection.config.dart
+packages/**/injection.config.dart
 
 # Symbolication related
 app.*.symbols

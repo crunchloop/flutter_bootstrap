@@ -1,22 +1,25 @@
 library firebase_auth;
 
 import 'package:authentication/authentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:authentication/data/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:logger/logger.dart';
 
-import 'firebase_options.dart';
-
 class FirebaseAuthentication implements Authentication {
-  static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  FirebaseAuthentication._(instance) : _firebaseAuth = instance;
 
-  User? get currentUser => _firebaseAuth.currentUser;
+  final fb.FirebaseAuth _firebaseAuth;
 
-  static Future<FirebaseAuthentication> initialize() async {
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+  static final _instance = FirebaseAuthentication._(fb.FirebaseAuth.instance);
+  static FirebaseAuthentication get instance => _instance;
 
-    return FirebaseAuthentication();
+  @override
+  User? getUser() {
+    final user = _firebaseAuth.currentUser;
+
+    return user == null
+        ? null
+        : User(id: user.uid, email: user.email, username: user.displayName);
   }
 
   @override
@@ -25,7 +28,7 @@ class FirebaseAuthentication implements Authentication {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-    } on FirebaseAuthException catch (e) {
+    } on fb.FirebaseAuthException catch (e) {
       Logger logger = Logger();
       logger.e(e);
     }

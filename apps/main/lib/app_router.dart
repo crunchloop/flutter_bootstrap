@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_bootstrap/data/repositories/auth.dart';
+import 'package:flutter_bootstrap/blocs/app/app_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import 'bloc/auth_bloc.dart';
+import 'blocs/login/login_bloc.dart';
 import 'pages/login.dart';
 import 'pages/home.dart';
 import 'pages/profile.dart';
@@ -14,18 +14,14 @@ part 'app_router.gr.dart';
 
 @Injectable()
 class AuthGuard extends AutoRedirectGuard {
-  final AuthBloc authBloc;
-  final AuthRepository authRepository;
-  late final StreamSubscription<AuthState> _stream;
+  final AppBloc appBloc;
+  final LoginBloc loginBloc;
 
-  AuthGuard(this.authBloc, this.authRepository) {
-    _stream = authBloc.stream.listen((AuthState state) {
-      state.maybeMap(
-        orElse: () {
-          reevaluate();
-        },
-        loaded: (_) {},
-      );
+  late final StreamSubscription<AppState> _stream;
+
+  AuthGuard(this.appBloc, this.loginBloc) {
+    _stream = appBloc.stream.listen((AppState state) {
+      reevaluate();
     });
   }
 
@@ -37,39 +33,28 @@ class AuthGuard extends AutoRedirectGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    authBloc.state.maybeMap(
-        orElse: () {
-          if (authRepository.getUser() == null) {
-            router.push(
-                LoginRoute(authBloc: authBloc, authRepository: authRepository));
-          } else {
-            resolver.next(true);
-          }
-        },
-        loading: (_) => {},
-        loaded: (_) => resolver.next(true));
+    appBloc.state.maybeMap(
+      orElse: () => resolver.next(false),
+      initialized: (value) => resolver.next(true),
+      authenticated: (_) => resolver.next(true),
+      unauthenticated: (_) => router.push(
+        LoginRoute(loginBloc: loginBloc),
+      ),
+    );
   }
 
   @override
   Future<bool> canNavigate(RouteMatch route) {
-    return Future.value(authBloc.state is Loaded);
+    return Future.value(appBloc.state is Authenticated);
   }
 }
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(
-      initial: true,
-      guards: [AuthGuard],
-      page: HomePage,
-      children: [
-        AutoRoute(page: ProfilePage),
-      ],
-    ),
-    AutoRoute(
-      page: LoginPage,
-    ),
+    AutoRoute(page: HomePage, initial: true, guards: [AuthGuard]),
+    AutoRoute(page: ProfilePage),
+    AutoRoute(page: LoginPage),
   ],
 )
 @Injectable()

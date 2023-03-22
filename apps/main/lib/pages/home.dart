@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bootstrap/bloc/auth_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../blocs/app/app_bloc.dart';
 import '../components/app_drawer.dart';
 import '../injection.dart';
 
@@ -38,7 +38,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.home),
       ),
-      drawer: AppDrawer(authBloc: getIt<AuthBloc>()),
+      drawer: AppDrawer(
+        appBloc: getIt<AppBloc>(),
+      ),
       body: Center(
           child: ElevatedButton(
         onPressed: () {
