@@ -1,15 +1,25 @@
+import 'package:authentication/authentication.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bootstrap/blocs/app/app_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../bloc/auth_bloc.dart';
 import '../app_router.dart';
+import '../blocs/login/login_bloc.dart';
 
 class AppDrawer extends StatefulWidget {
-  final AuthBloc _authBloc;
+  final AppBloc _appBloc;
+  final LoginBloc _loginBloc;
+  final Authentication _authentication;
 
-  const AppDrawer({Key? key, required AuthBloc authBloc})
-      : _authBloc = authBloc,
+  const AppDrawer(
+      {Key? key,
+      required AppBloc appBloc,
+      required LoginBloc loginBloc,
+      required Authentication authentication})
+      : _appBloc = appBloc,
+        _loginBloc = loginBloc,
+        _authentication = authentication,
         super(key: key);
 
   @override
@@ -18,7 +28,14 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   void signOut(BuildContext context) {
-    widget._authBloc.add(const AuthEvent.logout());
+    widget._appBloc.add(const AppEvent.unauthenticate());
+
+    context.router.push(
+      LoginRoute(
+        loginBloc: widget._loginBloc,
+        authentication: widget._authentication,
+      ),
+    );
   }
 
   @override

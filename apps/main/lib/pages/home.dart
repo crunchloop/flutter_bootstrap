@@ -1,7 +1,9 @@
+import 'package:authentication/authentication.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bootstrap/bloc/auth_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../blocs/app/app_bloc.dart';
+import '../blocs/login/login_bloc.dart';
 import '../components/app_drawer.dart';
 import '../injection.dart';
 
@@ -38,7 +40,11 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      drawer: AppDrawer(authBloc: getIt<AuthBloc>()),
+      drawer: AppDrawer(
+        appBloc: getIt<AppBloc>(),
+        authentication: getIt<Authentication>(),
+        loginBloc: getIt<LoginBloc>(),
+      ),
       body: Center(
           child: ElevatedButton(
         onPressed: () {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_authentication/firebase_authentication.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:injectable/injectable.dart';
@@ -10,8 +9,10 @@ import 'app_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  configureDependencies();
-  await FirebaseAuthentication.initialize();
+  // fb.configureDependencies();
+  await configureDependencies();
+
+  // await FirebaseAuthentication.initialize();
 
   runApp(MyApp(appRouter: getIt<AppRouter>()));
 }

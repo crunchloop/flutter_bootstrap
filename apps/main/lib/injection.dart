@@ -1,3 +1,5 @@
+import 'package:authentication/authentication.dart';
+import 'package:firebase_authentication/firebase_authentication.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
@@ -10,4 +12,11 @@ final getIt = GetIt.instance;
   preferRelativeImports: true,
   asExtension: false,
 )
-void configureDependencies() async => $initGetIt(getIt);
+Future<void> configureDependencies() async => await $initGetIt(getIt);
+
+@module
+abstract class RegisterModule {
+  @singleton
+  @preResolve
+  Future<Authentication> get auth => FirebaseAuthentication.initialize();
+}
