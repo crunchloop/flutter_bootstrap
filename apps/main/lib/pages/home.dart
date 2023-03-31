@@ -18,8 +18,7 @@ class _HomePageState extends State<HomePage> {
   void showAlert(String message) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
+      builder: (context) => AlertDialog(
           title: const Text('Alert'),
           content: Text(message),
           actions: [
@@ -27,16 +26,14 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK')),
+                child: const Text('OK'),),
           ],
-        );
-      },
+        ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
       ),
@@ -51,7 +48,6 @@ class _HomePageState extends State<HomePage> {
           showAlert(AppLocalizations.of(context)!.homeScreenMessage);
         },
         child: Text(AppLocalizations.of(context)!.homeScreenButton),
-      )),
+      ),),
     );
-  }
 }

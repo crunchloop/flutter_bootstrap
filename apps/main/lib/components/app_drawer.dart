@@ -1,26 +1,26 @@
 import 'package:authentication/authentication.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bootstrap/blocs/app/app_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../app_router.dart';
+import '../blocs/app/app_bloc.dart';
 import '../blocs/login/login_bloc.dart';
 
 class AppDrawer extends StatefulWidget {
-  final AppBloc _appBloc;
-  final LoginBloc _loginBloc;
-  final Authentication _authentication;
-
-  const AppDrawer(
-      {Key? key,
-      required AppBloc appBloc,
-      required LoginBloc loginBloc,
-      required Authentication authentication})
-      : _appBloc = appBloc,
+  const AppDrawer({
+    required AppBloc appBloc,
+    required LoginBloc loginBloc,
+    required Authentication authentication,
+    Key? key,
+  })  : _appBloc = appBloc,
         _loginBloc = loginBloc,
         _authentication = authentication,
         super(key: key);
+
+  final AppBloc _appBloc;
+  final LoginBloc _loginBloc;
+  final Authentication _authentication;
 
   @override
   State<AppDrawer> createState() => _AppDrawerState();
@@ -39,8 +39,7 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Drawer(
+  Widget build(BuildContext context) => Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -50,21 +49,16 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.home),
-            onTap: () {
-              context.router.push(const HomeRoute());
-            },
+            onTap: () => context.router.push(const HomeRoute()),
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.profile),
-            onTap: () {
-              context.router.push(const ProfileRoute());
-            },
+            onTap: () => context.router.push(const ProfileRoute()),
           ),
           ListTile(
               title: Text(AppLocalizations.of(context)!.signOut),
-              onTap: () => signOut(context)),
+              onTap: () => signOut(context),),
         ],
       ),
     );
-  }
 }

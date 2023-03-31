@@ -9,8 +9,6 @@ part 'app_bloc.freezed.dart';
 
 @singleton
 class AppBloc extends Bloc<AppEvent, AppState> {
-  final Authentication authentication;
-
   AppBloc(this.authentication) : super(const Initialized()) {
     on<CheckAuthentication>((event, emit) async {
       if (authentication.getUser() != null) {
@@ -26,4 +24,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       emit(const Unauthenticated());
     });
   }
+
+  final Authentication authentication;
 }
