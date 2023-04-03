@@ -5,6 +5,22 @@ packages:
   - apps/*
 
 scripts:
+  analyze:
+    run: melos exec -- "flutter analyze"
+    description: Run `flutter analyze` in all packages
+
+  generate:
+    run: melos run generate:dart && melos run generate:flutter-l10n && melos run generate:flutter
+    description: Build all generated files for Dart & Flutter packages in this project.
+
+  generate:dart:
+    run: melos exec -c 1 --depends-on="build_runner" --no-flutter --ignore="riverpod_lint_flutter_test" -- "dart run build_runner build --delete-conflicting-outputs"
+    description: Build all generated files for Dart packages in this project.
+
   generate:flutter-l10n:
     run: melos exec -c 1 --depends-on="intl" --flutter -- "flutter gen-l10n"
     description: Build all generated localization files for Flutter packages in this project.
+
+  generate:flutter:
+    run: melos exec -c 1 --depends-on="build_runner" --flutter -- "flutter pub run build_runner build --delete-conflicting-outputs"
+    description: Build all generated files for Flutter packages in this project.
