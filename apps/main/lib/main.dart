@@ -3,8 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:injectable/injectable.dart';
 
-import 'injection.dart';
 import 'app_router.dart';
+import 'injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,15 +19,16 @@ void main() async {
 
 @Injectable()
 class MyApp extends StatelessWidget {
-  final AppRouter _appRouter;
-
-  const MyApp({Key? key, required AppRouter appRouter})
-      : _appRouter = appRouter,
+  const MyApp({
+    required AppRouter appRouter,
+    Key? key,
+  })  : _appRouter = appRouter,
         super(key: key);
 
+  final AppRouter _appRouter;
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
+  Widget build(BuildContext context) => MaterialApp.router(
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       localizationsDelegates: const [
@@ -41,5 +42,4 @@ class MyApp extends StatelessWidget {
         Locale('es', ''),
       ],
     );
-  }
 }

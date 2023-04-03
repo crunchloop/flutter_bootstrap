@@ -12,7 +12,7 @@ final getIt = GetIt.instance;
   preferRelativeImports: true,
   asExtension: false,
 )
-Future<void> configureDependencies() async => await $initGetIt(getIt);
+Future<void> configureDependencies() async => $initGetIt(getIt);
 
 @module
 abstract class RegisterModule {
