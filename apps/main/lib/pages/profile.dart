@@ -16,11 +16,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(AppLocalizations.of(context)!.profile),
       ),
       drawer: AppDrawer(authBloc: getIt<AuthBloc>()),
-      body: const Center(
-        child: Text('Your profile!'),
+      body: Center(
+        child: Text(AppLocalizations.of(context)!.profile),
       ),
     );
   }

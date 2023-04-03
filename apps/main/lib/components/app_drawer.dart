@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/auth_bloc.dart';
 import '../app_router.dart';
@@ -26,24 +27,25 @@ class _AppDrawerState extends State<AppDrawer> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.green),
-            child: Text('Drawer Header'),
+          DrawerHeader(
+            decoration: const BoxDecoration(color: Colors.green),
+            child: Text(AppLocalizations.of(context)!.appTitle),
           ),
           ListTile(
-            title: const Text('Home'),
+            title: Text(AppLocalizations.of(context)!.home),
             onTap: () {
               context.router.push(const HomeRoute());
             },
           ),
           ListTile(
-            title: const Text('Profile'),
+            title: Text(AppLocalizations.of(context)!.profile),
             onTap: () {
               context.router.push(const ProfileRoute());
             },
           ),
           ListTile(
-              title: const Text('Sign Out'), onTap: () => signOut(context)),
+              title: Text(AppLocalizations.of(context)!.signOut),
+              onTap: () => signOut(context)),
         ],
       ),
     );

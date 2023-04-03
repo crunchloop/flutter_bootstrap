@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bootstrap/data/repositories/auth.dart';
 import 'package:injectable/injectable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../bloc/auth_bloc.dart';
 import '../app_router.dart';
@@ -41,7 +42,7 @@ class _LoginState extends State<LoginPage> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Login'),
+          title: Text(AppLocalizations.of(context)!.login),
         ),
         body: Form(
           key: _formKey,
@@ -51,8 +52,8 @@ class _LoginState extends State<LoginPage> {
               loaded: (_) => context.router.replace(const HomeRoute()),
               error: (state) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Login failed'),
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)!.loginFailed),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -66,25 +67,25 @@ class _LoginState extends State<LoginPage> {
                   children: [
                     TextFormField(
                       controller: _emailController,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.emailLabel,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return AppLocalizations.of(context)!.enterSomeText;
                         }
                         return null;
                       },
                     ),
                     TextFormField(
                       controller: _passwordController,
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)!.passwordLabel,
                       ),
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return AppLocalizations.of(context)!.enterSomeText;
                         }
                         return null;
                       },
@@ -96,7 +97,7 @@ class _LoginState extends State<LoginPage> {
                             login(context, state);
                           }
                         },
-                        child: const Text('Submit'),
+                        child: Text(AppLocalizations.of(context)!.submit),
                       ),
                       loading: (_) => const Center(
                         child: Padding(

@@ -3,3 +3,8 @@ name: flutter_bootstrap
 packages:
   - packages/*
   - apps/*
+
+scripts:
+  generate:flutter-l10n:
+    run: melos exec -c 1 --depends-on="intl" --flutter -- "flutter gen-l10n"
+    description: Build all generated localization files for Flutter packages in this project.

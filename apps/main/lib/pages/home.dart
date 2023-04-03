@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bootstrap/bloc/auth_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../components/app_drawer.dart';
 import '../injection.dart';
@@ -17,14 +18,14 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Alert'),
+          title: Text(AppLocalizations.of(context)!.alert),
           content: Text(message),
           actions: [
             TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK')),
+                child: Text(AppLocalizations.of(context)!.ok)),
           ],
         );
       },
@@ -35,15 +36,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text(AppLocalizations.of(context)!.home),
       ),
       drawer: AppDrawer(authBloc: getIt<AuthBloc>()),
       body: Center(
           child: ElevatedButton(
         onPressed: () {
-          showAlert('You are in the home screen!');
+          showAlert(AppLocalizations.of(context)!.homeScreenMessage);
         },
-        child: const Text('Hello!'),
+        child: Text(AppLocalizations.of(context)!.homeScreenButton),
       )),
     );
   }
